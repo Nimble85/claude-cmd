@@ -11,14 +11,30 @@ Before you begin, ensure you have:
 - ✅ **Windows 10/11** or Windows Server
 - ✅ **PowerShell 5.1+** (included with Windows)
 - ✅ **Azure Account** with Microsoft Foundry access
-- ✅ **Claude Code** installed
+- ✅ **Claude Code** (can be auto-installed by script)
 - ✅ **Azure Foundry Deployment** with Claude models
 - ✅ **API Key** from Azure Portal
+- ✅ **Node.js** (optional, for npm installation of Claude Code)
 - ✅ **Python 3.8+** (optional, for testing)
 
 ---
 
 ## 🚀 Quick Start (3 Steps)
+
+### Step 0: Install Claude Code (If Needed)
+
+If you don't have Claude Code installed, run:
+
+```powershell
+.\install-claude.ps1
+```
+
+This will:
+- Check if Claude Code is installed
+- Install via npm if Node.js is available
+- Or guide you to download it directly
+
+**Alternatively**, the `start-claude.ps1` script will offer to install it automatically if not found.
 
 ### Step 1: Get Your Azure Credentials
 

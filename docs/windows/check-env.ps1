@@ -18,7 +18,7 @@ function Check-EnvVar {
     $VarValue = [Environment]::GetEnvironmentVariable($VarName)
     
     if ([string]::IsNullOrEmpty($VarValue)) {
-        Write-Host "❌ $VarName`: NOT SET" -ForegroundColor Red
+        Write-Host "[FAIL] $VarName : NOT SET" -ForegroundColor Red
         return $false
     } else {
         # Truncate long values
@@ -27,7 +27,7 @@ function Check-EnvVar {
         } else {
             $DisplayValue = $VarValue
         }
-        Write-Host "✅ $VarName`: $DisplayValue" -ForegroundColor Green
+        Write-Host "[OK] $VarName : $DisplayValue" -ForegroundColor Green
         return $true
     }
 }
@@ -49,12 +49,12 @@ if (-not (Check-EnvVar "ANTHROPIC_MODEL")) {
 
 Write-Host ""
 if ($AllOk) {
-    Write-Host "✅ ALL REQUIRED VARIABLES ARE SET!" -ForegroundColor Green
+    Write-Host "[SUCCESS] ALL REQUIRED VARIABLES ARE SET!" -ForegroundColor Green
     Write-Host ""
     Write-Host "You can now start Claude Code:" -ForegroundColor Cyan
     Write-Host "  .\start-claude.ps1"
 } else {
-    Write-Host "❌ SOME VARIABLES ARE MISSING!" -ForegroundColor Red
+    Write-Host "[ERROR] SOME VARIABLES ARE MISSING!" -ForegroundColor Red
     Write-Host ""
     Write-Host "Please run:" -ForegroundColor Yellow
     Write-Host "  .\intro.ps1"
@@ -63,4 +63,3 @@ if ($AllOk) {
 }
 
 Write-Host "==========================================" -ForegroundColor Cyan
-
