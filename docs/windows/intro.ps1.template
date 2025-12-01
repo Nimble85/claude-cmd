@@ -1,28 +1,42 @@
 # Claude Code + Microsoft Foundry Configuration for Windows (TEMPLATE)
+# Based on official documentation: https://code.claude.com/docs/en/microsoft-foundry
 # This is a template file - copy to intro.ps1 and edit with your credentials
 #
 # SETUP INSTRUCTIONS:
 # 1. Copy this file: Copy-Item intro.ps1.template intro.ps1
 # 2. Edit intro.ps1 with your Azure Foundry deployment details
 # 3. Run in PowerShell: .\intro.ps1
-# 4. Start Claude Code: claude (or use .\start-claude.ps1)
+# 4. Start Claude Code: claude
 ###############################################################################
 
-# Your Azure Foundry Configuration
-$env:ANTHROPIC_BASE_URL = "https://YOUR-RESOURCE.services.ai.azure.com/anthropic/"
-$env:ANTHROPIC_API_KEY = "YOUR-API-KEY-HERE"
-$env:ANTHROPIC_MODEL = "claude-opus-4-5"
+# CRITICAL: Enable Microsoft Foundry integration
+$env:CLAUDE_CODE_USE_FOUNDRY = "1"
 
-# Optional: Additional model aliases
+# Azure resource name (just the resource name, not full URL)
+# Get from Azure Portal - just the resource name part
+# Example: "my-resource-eastus2"
+$env:ANTHROPIC_FOUNDRY_RESOURCE = "YOUR-RESOURCE-NAME"
+
+# API Key from Azure Portal (Keys and Endpoint section)
+$env:ANTHROPIC_FOUNDRY_API_KEY = "YOUR-API-KEY-HERE"
+
+# Optional: Model deployment names (set these to your deployment names)
 $env:ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-5"
 $env:ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4-5"
 $env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5"
 
 # Confirmation message
-Write-Host "✅ Claude Code configured for Microsoft Foundry" -ForegroundColor Green
-Write-Host "   Endpoint: $env:ANTHROPIC_BASE_URL"
-Write-Host "   Model: $env:ANTHROPIC_MODEL"
-Write-Host "   API Key: $($env:ANTHROPIC_API_KEY.Substring(0, [Math]::Min(20, $env:ANTHROPIC_API_KEY.Length)))..."
-Write-Host ""
-Write-Host "🚀 Start Claude Code with: .\start-claude.ps1" -ForegroundColor Cyan
+Write-Host "[OK] Claude Code configured for Microsoft Foundry" -ForegroundColor Green
+Write-Host "     Foundry Enabled: $env:CLAUDE_CODE_USE_FOUNDRY"
+Write-Host "     Resource: $env:ANTHROPIC_FOUNDRY_RESOURCE"
 
+$keyPreview = $env:ANTHROPIC_FOUNDRY_API_KEY
+if ($keyPreview.Length -gt 20) {
+    $keyPreview = $keyPreview.Substring(0, 20) + "..."
+}
+Write-Host "     API Key: $keyPreview"
+Write-Host "     Default Model: $env:ANTHROPIC_DEFAULT_OPUS_MODEL"
+Write-Host ""
+Write-Host "Start Claude Code in this same window: claude" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Reference: https://code.claude.com/docs/en/microsoft-foundry" -ForegroundColor Gray

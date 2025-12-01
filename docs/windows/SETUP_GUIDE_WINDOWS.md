@@ -57,12 +57,25 @@ From Azure Portal, collect:
    notepad intro.ps1
    ```
 
-4. **Replace these values:**
+4. **Replace these values (CRITICAL - all three required):**
    ```powershell
-   $env:ANTHROPIC_BASE_URL = "https://YOUR-RESOURCE.services.ai.azure.com/anthropic/"
-   $env:ANTHROPIC_API_KEY = "YOUR-API-KEY-HERE"
-   $env:ANTHROPIC_MODEL = "claude-opus-4-5"
+   # REQUIRED: Enable Microsoft Foundry integration
+   $env:CLAUDE_CODE_USE_FOUNDRY = "1"
+   
+   # REQUIRED: Your Azure resource name (just the name, not full URL)
+   $env:ANTHROPIC_FOUNDRY_RESOURCE = "YOUR-RESOURCE-NAME"
+   
+   # REQUIRED: Your API key from Azure Portal
+   $env:ANTHROPIC_FOUNDRY_API_KEY = "YOUR-API-KEY-HERE"
+   
+   # OPTIONAL: Model deployment names
+   $env:ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-5"
    ```
+   
+   **Important Notes:**
+   - `CLAUDE_CODE_USE_FOUNDRY` must be set to "1" to enable Foundry support
+   - `ANTHROPIC_FOUNDRY_RESOURCE` is just the resource name (e.g., "my-resource-eastus2"), NOT the full URL
+   - `ANTHROPIC_FOUNDRY_API_KEY` is from Azure Portal, NOT a standard Anthropic API key
 
 5. **Save and close**
 
