@@ -1,0 +1,49 @@
+#!/bin/bash
+###############################################################################
+# Claude Code + Microsoft Foundry Configuration Template
+###############################################################################
+# 
+# INSTRUCTIONS:
+# 1. Copy this file: cp intro.sh.template intro.sh
+# 2. Edit intro.sh with your actual Azure Foundry credentials
+# 3. Run: source intro.sh
+# 4. Start: ./start-claude.sh
+#
+###############################################################################
+
+# ============================================================================
+# REQUIRED: Your Azure Foundry Configuration
+# ============================================================================
+
+# Your Azure Foundry endpoint URL
+# Get this from Azure Portal > Your Foundry Resource > Endpoint
+# Format: https://YOUR-RESOURCE-NAME.services.ai.azure.com/anthropic/
+export ANTHROPIC_BASE_URL="https://YOUR-RESOURCE.services.ai.azure.com/anthropic/"
+
+# Your API Key from Azure Portal
+# Get this from Azure Portal > Your Foundry Resource > Keys and Endpoint
+export ANTHROPIC_API_KEY="YOUR-API-KEY-HERE"
+
+# Your deployment name
+# This is the name you gave your Claude model deployment in Azure
+# Examples: claude-opus-4-5, claude-sonnet-4-5, claude-haiku-4-5
+export ANTHROPIC_MODEL="claude-opus-4-5"
+
+# ============================================================================
+# OPTIONAL: Additional model aliases
+# ============================================================================
+# Customize these if you have different deployment names
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-5"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-sonnet-4-5"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="claude-haiku-4-5"
+
+# ============================================================================
+# Confirmation message
+# ============================================================================
+echo "✅ Claude Code configured for Microsoft Foundry"
+echo "   Endpoint: $ANTHROPIC_BASE_URL"
+echo "   Model: $ANTHROPIC_MODEL"
+echo "   API Key: ${ANTHROPIC_API_KEY:0:20}..."
+echo ""
+echo "🚀 Start Claude Code with: ./start-claude.sh"
+

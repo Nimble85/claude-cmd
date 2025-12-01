@@ -1,0 +1,35 @@
+# Credentials and Secrets
+docs/windows/intro.ps1
+docs/linux-mac/intro.sh
+
+# But allow the templates
+!docs/linux-mac/intro.sh.template
+!docs/windows/intro.ps1.template
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Windows PowerShell
+*.ps1~
