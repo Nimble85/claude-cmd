@@ -1,6 +1,8 @@
-# Claude Code + Microsoft Foundry Setup
+# Claude Code CLI + Microsoft Foundry Setup
 
-Complete setup for configuring Claude Code to use Microsoft Azure Foundry on your local machine.
+Complete setup for configuring **Claude Code CLI** (terminal/command-line tool) to use Microsoft Azure Foundry on your local machine.
+
+> **⚠️ Important:** This is for the **Claude CLI** (terminal version), not Claude Desktop app.
 
 ---
 
@@ -67,14 +69,16 @@ claude-cmd/
 
 **Before:**
 ```
-Claude Code → Anthropic API (requires Anthropic subscription)
+Claude CLI → Anthropic API (requires Anthropic subscription)
 ```
 
 **After:**
 ```
-Claude Code → Your Azure Foundry → Claude Models
-           (uses your Azure credits & deployments)
+Claude CLI (terminal) → Your Azure Foundry → Claude Models
+                     (uses your Azure credits & deployments)
 ```
+
+> **Note:** This configures the **Claude Code CLI** - the terminal/command-line tool you run with `claude` command. This is NOT for Claude Desktop (the GUI app).
 
 ---
 
