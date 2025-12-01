@@ -1,71 +1,95 @@
 ###############################################################################
-# Start Claude Code CLI with Microsoft Foundry Configuration (Windows)
+# Start Claude CLI with Microsoft Foundry Configuration (Windows)
 ###############################################################################
-# This starts the Claude CLI terminal tool (NOT Claude Desktop)
+# IMPORTANT: This must be run in the SAME PowerShell window where you ran intro.ps1
 ###############################################################################
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-Write-Host "Checking Claude Code CLI installation..." -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  Claude CLI + Microsoft Foundry" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host ""
 
+# Check if Claude CLI is installed
+Write-Host "Step 1: Checking Claude CLI installation..." -ForegroundColor Yellow
 $claudeInstalled = $false
 try {
-    $null = & claude --version 2>&1
+    $version = & claude --version 2>&1
     if ($LASTEXITCODE -eq 0) {
         $claudeInstalled = $true
+        Write-Host "[OK] Claude CLI installed: $version" -ForegroundColor Green
     }
 } catch {
     $claudeInstalled = $false
 }
 
 if (-not $claudeInstalled) {
-    Write-Host "ERROR: Claude Code CLI is not installed" -ForegroundColor Red
+    Write-Host "[ERROR] Claude CLI is not installed" -ForegroundColor Red
     Write-Host ""
-    Write-Host "This setup requires the Claude CLI (terminal version)," -ForegroundColor Yellow
-    Write-Host "not Claude Desktop." -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host "Would you like to install Claude CLI now?" -ForegroundColor Yellow
-    $response = Read-Host "Install Claude CLI? (Y/N)"
-    
-    if ($response -eq "Y" -or $response -eq "y") {
-        Write-Host ""
-        Write-Host "Running installation script..." -ForegroundColor Cyan
-        & "$ScriptDir\install-claude.ps1"
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host ""
-            Write-Host "Installation failed." -ForegroundColor Red
-            Write-Host "Install manually: npm install -g @anthropic-ai/claude-code" -ForegroundColor Yellow
-            exit 1
-        }
-    } else {
-        Write-Host ""
-        Write-Host "Please install Claude CLI first:" -ForegroundColor Yellow
-        Write-Host "  Option 1: .\install-claude.ps1" -ForegroundColor White
-        Write-Host "  Option 2: npm install -g @anthropic-ai/claude-code" -ForegroundColor White
-        exit 1
-    }
-}
-
-Write-Host "OK: Claude Code CLI is installed" -ForegroundColor Green
-Write-Host ""
-
-Write-Host "Loading Microsoft Foundry configuration..." -ForegroundColor Cyan
-
-if (Test-Path "$ScriptDir\intro.ps1") {
-    & "$ScriptDir\intro.ps1"
-} else {
-    Write-Host "ERROR: intro.ps1 not found in $ScriptDir" -ForegroundColor Red
-    Write-Host "Please create intro.ps1 with your Azure credentials" -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host "Copy from template:" -ForegroundColor Yellow
-    Write-Host "  Copy-Item intro.ps1.template intro.ps1" -ForegroundColor White
+    Write-Host "Install with: npm install -g @anthropic-ai/claude-code" -ForegroundColor Yellow
+    Write-Host "Or run: .\install-claude.ps1" -ForegroundColor Yellow
     exit 1
 }
 
 Write-Host ""
-Write-Host "Starting Claude CLI in terminal mode..." -ForegroundColor Cyan
-Write-Host "Press Ctrl+C to exit" -ForegroundColor Yellow
+Write-Host "Step 2: Loading Azure Foundry configuration..." -ForegroundColor Yellow
+
+# Check if config file exists
+if (-not (Test-Path "$ScriptDir\intro.ps1")) {
+    Write-Host "[ERROR] intro.ps1 not found" -ForegroundColor Red
+    Write-Host "Please create intro.ps1 with your Azure credentials" -ForegroundColor Yellow
+    Write-Host "Copy from: intro.ps1.template" -ForegroundColor White
+    exit 1
+}
+
+# Source the configuration
+& "$ScriptDir\intro.ps1"
+
+Write-Host ""
+Write-Host "Step 3: Verifying environment variables..." -ForegroundColor Yellow
+
+# Verify variables are set
+$allSet = $true
+if ([string]::IsNullOrEmpty($env:ANTHROPIC_BASE_URL)) {
+    Write-Host "[ERROR] ANTHROPIC_BASE_URL not set" -ForegroundColor Red
+    $allSet = $false
+} else {
+    Write-Host "[OK] ANTHROPIC_BASE_URL = $env:ANTHROPIC_BASE_URL" -ForegroundColor Green
+}
+
+if ([string]::IsNullOrEmpty($env:ANTHROPIC_API_KEY)) {
+    Write-Host "[ERROR] ANTHROPIC_API_KEY not set" -ForegroundColor Red
+    $allSet = $false
+} else {
+    $keyPreview = $env:ANTHROPIC_API_KEY.Substring(0, [Math]::Min(20, $env:ANTHROPIC_API_KEY.Length)) + "..."
+    Write-Host "[OK] ANTHROPIC_API_KEY = $keyPreview" -ForegroundColor Green
+}
+
+if ([string]::IsNullOrEmpty($env:ANTHROPIC_MODEL)) {
+    Write-Host "[ERROR] ANTHROPIC_MODEL not set" -ForegroundColor Red
+    $allSet = $false
+} else {
+    Write-Host "[OK] ANTHROPIC_MODEL = $env:ANTHROPIC_MODEL" -ForegroundColor Green
+}
+
+if (-not $allSet) {
+    Write-Host ""
+    Write-Host "[ERROR] Configuration incomplete!" -ForegroundColor Red
+    Write-Host "Please check intro.ps1 and ensure all values are set" -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host ""
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  Starting Claude CLI" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Environment configured for Azure Foundry" -ForegroundColor Green
+Write-Host "Claude will use: $env:ANTHROPIC_BASE_URL" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Press Ctrl+C to exit Claude CLI" -ForegroundColor Yellow
 Write-Host ""
 
+# Start Claude CLI with environment
 claude
