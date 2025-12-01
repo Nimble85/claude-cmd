@@ -1,38 +1,41 @@
 #!/bin/bash
 ###############################################################################
 # Claude Code + Microsoft Foundry Configuration Template
+# Based on official documentation: https://code.claude.com/docs/en/microsoft-foundry
 ###############################################################################
 # 
 # INSTRUCTIONS:
 # 1. Copy this file: cp intro.sh.template intro.sh
 # 2. Edit intro.sh with your actual Azure Foundry credentials
 # 3. Run: source intro.sh
-# 4. Start: ./start-claude.sh
+# 4. Start: claude
 #
 ###############################################################################
+
+# ============================================================================
+# REQUIRED: Enable Microsoft Foundry Integration
+# ============================================================================
+
+# CRITICAL: This enables Microsoft Foundry support in Claude Code
+export CLAUDE_CODE_USE_FOUNDRY=1
 
 # ============================================================================
 # REQUIRED: Your Azure Foundry Configuration
 # ============================================================================
 
-# Your Azure Foundry endpoint URL
-# Get this from Azure Portal > Your Foundry Resource > Endpoint
-# Format: https://YOUR-RESOURCE-NAME.services.ai.azure.com/anthropic/
-export ANTHROPIC_BASE_URL="https://YOUR-RESOURCE.services.ai.azure.com/anthropic/"
+# Your Azure resource name (just the name, not full URL)
+# Get this from Azure Portal > Your Foundry Resource
+# Format: "resource-name" (e.g., "my-resource-eastus2")
+export ANTHROPIC_FOUNDRY_RESOURCE="YOUR-RESOURCE-NAME"
 
 # Your API Key from Azure Portal
 # Get this from Azure Portal > Your Foundry Resource > Keys and Endpoint
-export ANTHROPIC_API_KEY="YOUR-API-KEY-HERE"
-
-# Your deployment name
-# This is the name you gave your Claude model deployment in Azure
-# Examples: claude-opus-4-5, claude-sonnet-4-5, claude-haiku-4-5
-export ANTHROPIC_MODEL="claude-opus-4-5"
+export ANTHROPIC_FOUNDRY_API_KEY="YOUR-API-KEY-HERE"
 
 # ============================================================================
-# OPTIONAL: Additional model aliases
+# OPTIONAL: Model deployment names
 # ============================================================================
-# Customize these if you have different deployment names
+# Set these to match your deployment names in Microsoft Foundry
 export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-5"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-sonnet-4-5"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="claude-haiku-4-5"
@@ -41,9 +44,11 @@ export ANTHROPIC_DEFAULT_HAIKU_MODEL="claude-haiku-4-5"
 # Confirmation message
 # ============================================================================
 echo "✅ Claude Code configured for Microsoft Foundry"
-echo "   Endpoint: $ANTHROPIC_BASE_URL"
-echo "   Model: $ANTHROPIC_MODEL"
-echo "   API Key: ${ANTHROPIC_API_KEY:0:20}..."
+echo "   Foundry Enabled: $CLAUDE_CODE_USE_FOUNDRY"
+echo "   Resource: $ANTHROPIC_FOUNDRY_RESOURCE"
+echo "   API Key: ${ANTHROPIC_FOUNDRY_API_KEY:0:20}..."
+echo "   Default Model: $ANTHROPIC_DEFAULT_OPUS_MODEL"
 echo ""
-echo "🚀 Start Claude Code with: ./start-claude.sh"
-
+echo "🚀 Start Claude Code with: claude"
+echo ""
+echo "📖 Reference: https://code.claude.com/docs/en/microsoft-foundry"
